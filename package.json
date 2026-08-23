@@ -5,12 +5,11 @@
   "license": "ISC",
   "author": "Nugroho",
   "type": "module",
-  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/index.ts",
     "postinstall": "prisma generate",
-    "build": "tsc"
+    "build": "tsc -p"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
