@@ -49,8 +49,8 @@ app.use('/api/public/stats', publicStatsRoutes)
 // app.use('/api/public/tag', publicTagRoutes)
 app.use('/api/public/contact', publicContactRoutes)
 
-if(process.env.VERCEL && Number(process.env.VERCEL) !== 1){
-  app.listen(PORT, ()=> {
+if(!process.env.VERCEL){
+  app.listen(PORT, ()=>{
       console.log(`Server running on port ${PORT}`);
   });
 }
