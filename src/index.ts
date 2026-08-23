@@ -1,23 +1,23 @@
 import "dotenv/config"; 
 import express, { type Express, type Request, type Response } from 'express';
-import authRoutes from "../src/routes/auth.ts"
-import categorieRoutes from "../src/routes/admin/categories.ts"
-import uploadRoutes from "../src/routes/admin/upload.ts"
-import badgeRoutes from "../src/routes/admin/badge.ts"
-import projectRoutes from "../src/routes/admin/project.ts"
-import tagRoutes from "../src/routes/admin/tag.ts"
-import issuerRoutes from "../src/routes/admin/issuer.ts"
-import statsRoutes from "../src/routes/admin/stats.ts"
-import adminContactRoutes from "../src/routes/admin/contact.ts"
+import authRoutes from "./routes/auth.ts"
+import categorieRoutes from "./routes/admin/categories.ts"
+import uploadRoutes from "./routes/admin/upload.ts"
+import badgeRoutes from "./routes/admin/badge.ts"
+import projectRoutes from "./routes/admin/project.ts"
+import tagRoutes from "./routes/admin/tag.ts"
+import issuerRoutes from "./routes/admin/issuer.ts"
+import statsRoutes from "./routes/admin/stats.ts"
+import adminContactRoutes from "./routes/admin/contact.ts"
 
-import publicBadgeRoutes from "../src/routes/public/badge.ts"
-import publicCategoriesRoutes from "../src/routes/public/categories.ts"
-import publicExpertiseRoutes from "../src/routes/public/expertise.ts"
-import publicLandingRoutes from "../src/routes/public/landing.ts"
-import publicProjectRoutes from "../src/routes/public/project.ts"
-import publicStatsRoutes from "../src/routes/public/stats.ts"
+import publicBadgeRoutes from "./routes/public/badge.ts"
+import publicCategoriesRoutes from "./routes/public/categories.ts"
+import publicExpertiseRoutes from "./routes/public/expertise.ts"
+import publicLandingRoutes from "./routes/public/landing.ts"
+import publicProjectRoutes from "./routes/public/project.ts"
+import publicStatsRoutes from "./routes/public/stats.ts"
 // import publicTagRoutes from "../src/routes/public/tag.ts"
-import publicContactRoutes from "../src/routes/public/contact.ts"
+import publicContactRoutes from "./routes/public/contact.ts"
 
 import cors from "cors";
 const app: Express = express();
@@ -49,6 +49,10 @@ app.use('/api/public/stats', publicStatsRoutes)
 // app.use('/api/public/tag', publicTagRoutes)
 app.use('/api/public/contact', publicContactRoutes)
 
-app.listen(PORT, ()=> {
-    console.log(`Server running on port ${PORT}`);
-});
+if(process.env.VERCEL && Number(process.env.VERCEL) !== 1){
+  app.listen(PORT, ()=> {
+      console.log(`Server running on port ${PORT}`);
+  });
+}
+
+export default app;
