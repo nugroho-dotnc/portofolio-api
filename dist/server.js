@@ -19,21 +19,7 @@ import publicContactRoutes from "./routes/public/contact.js";
 import cors from "cors";
 const app = express();
 app.use(cors({
-    origin: (origin, callback) => {
-        var _a;
-        const allowedOrigins = [
-            (_a = process.env.FRONTEND_URL) === null || _a === void 0 ? void 0 : _a.replace(/\/+$/, ''),
-        ].filter(Boolean);
-        // Allow Vercel preview deployments for nugroho-profile
-        const isVercelPreview = origin && /^https:\/\/nugroho-profile.*\.vercel\.app$/.test(origin);
-        if (!origin || allowedOrigins.includes(origin) || isVercelPreview) {
-            callback(null, origin || true);
-        }
-        else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
+    origin: true,
 }));
 app.use(express.json());
 // ADMIN ENDPOINT

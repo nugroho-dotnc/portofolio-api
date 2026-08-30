@@ -21,10 +21,7 @@ import publicContactRoutes from "./routes/public/contact.js"
 import cors from "cors";
 const app: Express = express();
 app.use(cors({
-  origin: process.env.FRONTEND_URL, // ex: "http://localhost:5173"
-  credentials: true,
-  methods: "GET, PUT, POST, DELETE",
-  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept"
+  origin: true,
 }));
 
 app.use(express.json()); 
