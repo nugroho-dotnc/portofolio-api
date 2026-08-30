@@ -1,7 +1,9 @@
 import { Router } from "express";
+import { requireAdmin } from "../../middleware/requireAdmin.js";
 import { prisma } from "../../lib/prisma.js";
 
 const router = Router();
+router.use(requireAdmin);
 
 // GET all contacjs
 router.get('/', async (req, res) => {

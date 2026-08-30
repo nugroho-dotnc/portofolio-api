@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
         const stats = await prisma.stats.findMany(
             {
                 select: {
+                  id: true,
                   isActive: true,
                   percentage: true,
                   category: {select: {title: true}} 

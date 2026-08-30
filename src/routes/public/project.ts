@@ -7,6 +7,7 @@ router.get('/', async (req, res) => {
     try{
         const project = await prisma.project.findMany(
             {
+                where: { isActive: true },
                 select: {
                     category: {},
                     id: true,
@@ -14,7 +15,8 @@ router.get('/', async (req, res) => {
                     title: true,
                     description: true,
                     shortDescription: true,
-                    tags: {select: {tag: true}}
+                    tags: {select: {tag: true}},
+                    media: true
                 }
             }
         );
@@ -29,7 +31,7 @@ router.get('/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
         const project = await prisma.project.findUnique({
-            where: { id },
+            where: { id, isActive: true },
             include: {
                 category: true,
                 media: true,

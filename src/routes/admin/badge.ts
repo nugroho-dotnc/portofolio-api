@@ -12,6 +12,7 @@ const badgeSchema = z.object({
   imagePath: z.string(),
   credentialUrl: z.string().optional(),
   categoryId: z.number().int(),
+  issuerId: z.number().int().nullable().optional(),
 });
 
 // CREATE
@@ -22,7 +23,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ status: false, error: parsed.error.flatten() });
     }
 
-    const { title, description, imagePath, credentialUrl, categoryId } = parsed.data;
+    const { title, description, imagePath, credentialUrl, categoryId, issuerId } = parsed.data;
 
     const exist = await prisma.badge.findFirst({ where: { title } });
     if (exist) {
@@ -30,7 +31,7 @@ router.post("/", async (req, res) => {
     }
 
     const badge = await prisma.badge.create({
-      data: { title, description, imagePath, credentialUrl, categoryId },
+      data: { title, description, imagePath, credentialUrl, categoryId, issuerId },
     });
 
     res.status(201).json({ status: true, data: badge });

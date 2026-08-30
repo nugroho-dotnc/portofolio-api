@@ -11,8 +11,8 @@ const categorieSchemas = z.object(
         icon: z.string(),
         title: z.string(),
         description: z.string(),
-        is_expertise: z.boolean(),
-        is_active: z.boolean()
+        isExpertise: z.boolean(),
+        isActive: z.boolean()
     }
 );
 
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
             return res.status(400).json({status: false, error: parsed.error.flatten()})
         }
 
-        const {icon, title, description, is_expertise, is_active} = parsed.data;
+        const {icon, title, description, isExpertise, isActive} = parsed.data;
         
         const exist = await prisma.category.findFirst({where: {title}});
 
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 
         const category = await prisma.category.create({
             data: {
-                title, icon, description, isExpertise: is_expertise, isActive: is_active
+                title, icon, description, isExpertise, isActive
             }
         });
 
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
 // READ
 router.get('/', async (req, res)=> {
     try{
-        const category = await prisma.category.findMany({where: {isActive: true}})
+        const category = await prisma.category.findMany()
         return res.status(200).json({status: true, data: category})
     }catch(e){
         console.error(e);
@@ -70,12 +70,12 @@ router.put('/:id', async (req, res)=> {
                 return res.status(409).json({status: false, error: `Kategori dengan nama ${parsed.data.title} sudah ada`})
             }
         }
-        const {icon, title, description, is_expertise, is_active} = parsed.data;
+        const {icon, title, description, isExpertise, isActive} = parsed.data;
 
         const category = await prisma.category.update({
             where: {id: Number(req.params.id)},
             data: {
-                title, icon, description, isExpertise: is_expertise, isActive: is_active
+                title, icon, description, isExpertise, isActive
             }
         })
         res.status(200).json({status: true, data: category})
@@ -89,7 +89,7 @@ router.put('/:id', async (req, res)=> {
 // DELETE
 router.delete('/:id', async (req, res)=> {
     try{
-        const existing = prisma.category.findUnique({where:{id: Number(req.params.id)}})
+        const existing = await prisma.category.findUnique({where:{id: Number(req.params.id)}})
         if(!existing){
             return res.status(404).json({status: false, error: "Data tidak ditemukan"})
         }

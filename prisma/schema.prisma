@@ -45,6 +45,8 @@ model Project {
   shortDescription String?        @map("short_description")
   description      String
   imagePath   String         @map("image_path")
+  link             String?        @map("link")
+  githubUrl        String?        @map("github_url")
   isActive    Boolean        @default(true) @map("is_active")
   categoryId  Int            @map("category_id")
   category    Category       @relation(fields: [categoryId], references: [id])
@@ -103,6 +105,7 @@ model Contact {
   email   String
   subject String
   message String
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@map("contact")
 }
