@@ -23,6 +23,8 @@ const app: Express = express();
 app.use(cors({
   origin: process.env.FRONTEND_URL, // ex: "http://localhost:5173"
   credentials: true,
+  methods: "GET, PUT, POST, DELETE",
+  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept"
 }));
 
 app.use(express.json()); 
