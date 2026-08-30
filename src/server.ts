@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express, { type Express } from 'express';
 import authRoutes from "./routes/auth.js"
 import categorieRoutes from "./routes/admin/categories.js"

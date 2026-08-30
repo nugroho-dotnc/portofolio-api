@@ -13,6 +13,7 @@ const router = Router();
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const project = yield prisma.project.findMany({
+            where: { isActive: true },
             select: {
                 category: {},
                 id: true,
@@ -20,7 +21,8 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 title: true,
                 description: true,
                 shortDescription: true,
-                tags: { select: { tag: true } }
+                tags: { select: { tag: true } },
+                media: true
             }
         });
         res.status(200).json({ status: true, data: project });
@@ -34,7 +36,7 @@ router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const id = Number(req.params.id);
         const project = yield prisma.project.findUnique({
-            where: { id },
+            where: { id, isActive: true },
             include: {
                 category: true,
                 media: true,

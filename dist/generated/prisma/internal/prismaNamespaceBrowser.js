@@ -84,6 +84,8 @@ export const ProjectScalarFieldEnum = {
     shortDescription: 'shortDescription',
     description: 'description',
     imagePath: 'imagePath',
+    link: 'link',
+    githubUrl: 'githubUrl',
     isActive: 'isActive',
     categoryId: 'categoryId'
 };
@@ -117,7 +119,8 @@ export const ContactScalarFieldEnum = {
     name: 'name',
     email: 'email',
     subject: 'subject',
-    message: 'message'
+    message: 'message',
+    createdAt: 'createdAt'
 };
 export const StatsScalarFieldEnum = {
     id: 'id',

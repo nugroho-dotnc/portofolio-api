@@ -8,8 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Router } from "express";
+import { requireAdmin } from "../../middleware/requireAdmin.js";
 import { prisma } from "../../lib/prisma.js";
 const router = Router();
+router.use(requireAdmin);
 // GET all contacjs
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

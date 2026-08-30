@@ -17,8 +17,8 @@ const categorieSchemas = z.object({
     icon: z.string(),
     title: z.string(),
     description: z.string(),
-    is_expertise: z.boolean(),
-    is_active: z.boolean()
+    isExpertise: z.boolean(),
+    isActive: z.boolean()
 });
 // POST
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,14 +27,14 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!parsed.success) {
             return res.status(400).json({ status: false, error: parsed.error.flatten() });
         }
-        const { icon, title, description, is_expertise, is_active } = parsed.data;
+        const { icon, title, description, isExpertise, isActive } = parsed.data;
         const exist = yield prisma.category.findFirst({ where: { title } });
         if (exist) {
             return res.status(409).json({ status: false, error: `Kategori dengan nama ${title} sudah ada` });
         }
         const category = yield prisma.category.create({
             data: {
-                title, icon, description, isExpertise: is_expertise, isActive: is_active
+                title, icon, description, isExpertise, isActive
             }
         });
         res.status(201).json({ status: true, data: category });
@@ -47,7 +47,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // READ
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const category = yield prisma.category.findMany({ where: { isActive: true } });
+        const category = yield prisma.category.findMany();
         return res.status(200).json({ status: true, data: category });
     }
     catch (e) {
@@ -68,11 +68,11 @@ router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 return res.status(409).json({ status: false, error: `Kategori dengan nama ${parsed.data.title} sudah ada` });
             }
         }
-        const { icon, title, description, is_expertise, is_active } = parsed.data;
+        const { icon, title, description, isExpertise, isActive } = parsed.data;
         const category = yield prisma.category.update({
             where: { id: Number(req.params.id) },
             data: {
-                title, icon, description, isExpertise: is_expertise, isActive: is_active
+                title, icon, description, isExpertise, isActive
             }
         });
         res.status(200).json({ status: true, data: category });
@@ -85,7 +85,7 @@ router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 // DELETE
 router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const existing = prisma.category.findUnique({ where: { id: Number(req.params.id) } });
+        const existing = yield prisma.category.findUnique({ where: { id: Number(req.params.id) } });
         if (!existing) {
             return res.status(404).json({ status: false, error: "Data tidak ditemukan" });
         }

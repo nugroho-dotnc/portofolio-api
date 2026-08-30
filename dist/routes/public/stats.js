@@ -14,6 +14,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const stats = yield prisma.stats.findMany({
             select: {
+                id: true,
                 isActive: true,
                 percentage: true,
                 category: { select: { title: true } }

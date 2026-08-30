@@ -19,6 +19,7 @@ const badgeSchema = z.object({
     imagePath: z.string(),
     credentialUrl: z.string().optional(),
     categoryId: z.number().int(),
+    issuerId: z.number().int().nullable().optional(),
 });
 // CREATE
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,13 +28,13 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!parsed.success) {
             return res.status(400).json({ status: false, error: parsed.error.flatten() });
         }
-        const { title, description, imagePath, credentialUrl, categoryId } = parsed.data;
+        const { title, description, imagePath, credentialUrl, categoryId, issuerId } = parsed.data;
         const exist = yield prisma.badge.findFirst({ where: { title } });
         if (exist) {
             return res.status(409).json({ status: false, error: `Badge dengan nama ${title} sudah ada` });
         }
         const badge = yield prisma.badge.create({
-            data: { title, description, imagePath, credentialUrl, categoryId },
+            data: { title, description, imagePath, credentialUrl, categoryId, issuerId },
         });
         res.status(201).json({ status: true, data: badge });
     }

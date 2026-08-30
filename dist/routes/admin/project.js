@@ -15,18 +15,20 @@ const router = Router();
 router.use(requireAdmin);
 const projecjschemas = z.object({
     title: z.string(),
-    short_description: z.string().optional(),
+    shortDescription: z.string().optional(),
     description: z.string(),
     imagePath: z.string(),
-    is_active: z.boolean(),
-    category_id: z.number().int(),
+    link: z.string().optional(),
+    githubUrl: z.string().optional(),
+    isActive: z.boolean(),
+    categoryId: z.number().int(),
     tags: z.array(z.number().int()).optional(),
     media: z.array(z.string()).optional(),
 });
 // READ
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const projecjs = yield prisma.project.findMany({ where: { isActive: true }, include: { category: true, media: true, tags: true } });
+        const projecjs = yield prisma.project.findMany({ include: { category: true, media: true, tags: true } });
         return res.status(200).json({ status: true, data: projecjs });
     }
     catch (err) {
@@ -64,7 +66,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!parsed.success) {
             return res.status(400).json({ status: false, error: parsed.error.flatten() });
         }
-        const { title, is_active, category_id, short_description, description, imagePath, tags, media } = parsed.data;
+        const { title, isActive, categoryId, shortDescription, description, imagePath, link, githubUrl, tags, media } = parsed.data;
         if (tags && tags.length > 0) {
             const existingTags = yield prisma.tag.findMany({
                 where: { id: { in: tags } },
@@ -81,7 +83,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const project = yield prisma.project.create({
             data: {
-                title, isActive: is_active, categoryId: category_id, shortDescription: short_description, description, imagePath,
+                title, isActive, categoryId, shortDescription, description, imagePath, link, githubUrl,
                 tags: tags ? { create: tags.map((tagId) => ({ tagId })) } : undefined,
                 media: media ? { create: media.map((imageUrl) => ({ imageUrl })) } : undefined
             }
@@ -107,7 +109,7 @@ router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (!exist) {
             return res.status(404).json({ status: false, error: `Project dengan id ${Number(req.params.id)} tidak ditemukan!` });
         }
-        const { title, category_id, short_description, description, imagePath, is_active, tags, media } = parsed.data;
+        const { title, categoryId, shortDescription, description, imagePath, link, githubUrl, isActive, tags, media } = parsed.data;
         if (tags && tags.length > 0) {
             const existingTags = yield prisma.tag.findMany({
                 where: { id: { in: tags } },
@@ -127,7 +129,7 @@ router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             const updated = yield tx.project.update({
                 where: { id: projectId },
                 data: {
-                    title, categoryId: category_id, shortDescription: short_description, description, imagePath, isActive: is_active
+                    title, categoryId, shortDescription, description, imagePath, link, githubUrl, isActive
                 }
             });
             if (tags !== undefined) {
