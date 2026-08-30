@@ -5,10 +5,12 @@
   "license": "ISC",
   "author": "Nugroho",
   "type": "module",
-  "main": "src/app.ts",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx --env-file=.env watch src/index.ts",
+    "dev": "nodemon",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -17,6 +19,7 @@
     "@supabase/supabase-js": "^2.112.2",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
@@ -31,7 +34,8 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.2.0",
     "@types/node": "^26.2.0",
-    "prisma": "^7.9.1",
+    "nodemon": "^3.1.14",
+    "prisma": "^7.10.0",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   },

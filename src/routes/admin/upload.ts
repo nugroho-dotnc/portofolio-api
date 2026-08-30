@@ -1,8 +1,8 @@
 // src/routes/admin/upload.ts
 import { Router } from "express";
 import multer from "multer";
-import { requireAdmin } from "../../middleware/requireAdmin.ts";
-import { supabaseAdmin } from "../../lib/supabase.ts";
+import { requireAdmin } from "../../middleware/requireAdmin.js";
+import { supabaseAdmin } from "../../lib/supabase.js";
 const router = Router();
 router.use(requireAdmin);
 

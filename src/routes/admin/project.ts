@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { requireAdmin } from "../../middleware/requireAdmin.ts";
-import {prisma} from "../../lib/prisma.ts";
+import { requireAdmin } from "../../middleware/requireAdmin.js";
+import {prisma} from "../../lib/prisma.js";
 import z from "zod";
 
 const router = Router();
 router.use(requireAdmin);
 
-const projectSchemas = z.object({
+const projecjschemas = z.object({
     title: z.string(),
     short_description: z.string().optional(),
     description: z.string(),
@@ -20,8 +20,8 @@ const projectSchemas = z.object({
 // READ
 router.get('/', async (req, res) => {
     try{
-        const projects = await prisma.project.findMany({where: {isActive: true}, include: {category: true, media: true, tags: true}});
-        return res.status(200).json({status: true, data: projects});
+        const projecjs = await prisma.project.findMany({where: {isActive: true}, include: {category: true, media: true, tags: true}});
+        return res.status(200).json({status: true, data: projecjs});
     }catch(err){
         console.error(err);
         return res.status(500).json({
@@ -56,7 +56,7 @@ router.get('/:id', async (req, res) => {
 // CREATE
 router.post('/', async (req, res) => {
     try{
-        const parsed = projectSchemas.safeParse(req.body);
+        const parsed = projecjschemas.safeParse(req.body);
 
         if(!parsed.success){
             return res.status(400).json({status: false, error: parsed.error.flatten()});
@@ -103,7 +103,7 @@ router.post('/', async (req, res) => {
 // UPDATE
 router.put('/:id', async (req, res) => {
     try{
-        const parsed = projectSchemas.partial().safeParse(req.body);
+        const parsed = projecjschemas.partial().safeParse(req.body);
 
         if(!parsed.success){
             return res.status(400).json({status: false, error: parsed.error.flatten()});

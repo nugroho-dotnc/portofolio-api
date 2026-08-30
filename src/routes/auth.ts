@@ -1,8 +1,8 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import {z} from "zod"
-import {prisma} from "../lib/prisma.ts"
-import { signToken } from "../lib/jwt.ts";
+import {prisma} from "../lib/prisma.js"
+import { signToken } from "../lib/jwt.js";
 
 const router = Router()
 

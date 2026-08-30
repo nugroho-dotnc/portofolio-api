@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { prisma } from "../../lib/prisma.ts";
+import { prisma } from "../../lib/prisma.js";
 
 const router = Router();
 
-// GET all contacts
+// GET all contacjs
 router.get('/', async (req, res) => {
     try {
-        const contacts = await prisma.contact.findMany({
+        const contacjs = await prisma.contact.findMany({
             orderBy: { id: 'desc' }
         });
-        res.status(200).json({ status: true, data: contacts });
+        res.status(200).json({ status: true, data: contacjs });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ status: false, error: "Internal Server Error!" });

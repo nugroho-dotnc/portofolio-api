@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
-import { requireAdmin } from "../../middleware/requireAdmin.ts";
-import { prisma } from "../../lib/prisma.ts";
+import { requireAdmin } from "../../middleware/requireAdmin.js";
+import { prisma } from "../../lib/prisma.js";
 
 const router = Router();
 router.use(requireAdmin);
